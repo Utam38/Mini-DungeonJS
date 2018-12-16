@@ -7,7 +7,6 @@ var monshp;
 var random;
 var incombat;
 var sta;
-var oro;
 
 //Declaro funciones:
 function random(){
@@ -40,6 +39,8 @@ function avanzar(){
       gameover();
     }
     document.getElementById("stamina").value=sta;
+    //setTimeout(time(), 1000);
+    //sleep(3000);
     combate();
   }
 }
@@ -81,11 +82,9 @@ function atacar(){
       document.getElementById("situacion").value="Dañas a la criatura!";
       monshp=monshp-1;
      if (monshp<1){
-        document.getElementById("situacion").value="DAS MUERTE AL MONSTRUO! Haz ganado 60pts por tu victoria.";
+        document.getElementById("situacion").value="DAS MUERTE AL MONSTRUO! Haz ganado 60 puntos por tu victoria.";
         score=score+60;
-        oro=oro+Math.round(random()/2);
         document.getElementById("score").value=score;
-        document.getElementById("orocont").value=oro;
         incombat=0;
         monshp=3;
         sta=sta-3;
@@ -128,9 +127,15 @@ function descansar(){
   }
 }
 
-
-//function usepot(){
-
+//Funcion copy/paste...
+/*function sleep() {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > 1000){
+      break;
+    }
+  }
+}*/
 
 function gameover(){
   document.getElementById("situacion").value="Tu vista se nubla y antes de entender la situacion, te ves enbuelto en una eterna caida.. tus sentidos se apasiguan, tu corazon se acelera y el tiempo parece detenerse... Pero oyes algo en medio de tu desorientacion. Algo que te marca el camino, una voz suena dentro de tu cabeza... o desde el corazon de la mazmorra... ya no puedes distinguirlo. Su mansage no usa palabras pero comprendes su significado con absoluta claridad, la vos dice; te esta diciendo... Bienvenido... "
@@ -146,17 +151,11 @@ function newgame(){
   monshp=3;
   incombat=0;
   sta=12;
-  oro=4;
 
   document.getElementById("ngame").disabled=true;
   document.getElementById("av").disabled=false;
   document.getElementById("at").disabled=false;
   document.getElementById("de").disabled=false;
-
-  document.getElementById("potbot").disabled=false;
-  document.getElementById("rabot").disabled=false;
-  document.getElementById("perbot").disabled=false;
-
   name=prompt("¡¿QUIEN OSA IRRUMPIR EN MIS DOMINIOS...?!");
   document.getElementById("name").value=name;
   document.getElementById("situacion").value="Cruzas el umbral y te sumerges en las penumbras de la mazmorra...";
@@ -165,19 +164,14 @@ function newgame(){
   document.getElementById("stamina").value=sta;
 }
 
+//Inicializo variables:
+
+
 //comienzo de ejecucion:
 
 document.getElementById("av").disabled=true;
 document.getElementById("at").disabled=true;
 document.getElementById("de").disabled=true;
-
-document.getElementById("potcont").disabled=true;
-document.getElementById("racont").disabled=true;
-document.getElementById("percont").disabled=true;
-document.getElementById("potbot").disabled=true;
-document.getElementById("rabot").disabled=true;
-document.getElementById("perbot").disabled=true;
-document.getElementById("orocont").disabled=true;
 
 document.getElementById("stamina").disabled=true;
 document.getElementById("score").disabled=true;
