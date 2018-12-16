@@ -12,6 +12,7 @@ var pota;
 var miam;
 var magia;
 var rmem;
+var buyuse;
 //var pergamino;
 //var racion;
 
@@ -26,6 +27,9 @@ function random(){
 }
 
 function avanzar(){
+  document.getElementById("racont").value=miam;
+  document.getElementById("potcont").value=pota;
+  document.getElementById("percont").value=magia;
   if (incombat==1){
     document.getElementById("situacion").value="Huyes del combate. Pierder 50 puntos...";
     if (score<50){
@@ -95,9 +99,15 @@ function extraño(){
   document.getElementById("de").setAttribute("onClick", "descansar();");
 }
 
+
 function trasgo(){
-  document.getElementById("situacion").value="Trasgo comerciante: Bienvenido aventurero! quizas tenga algo que pueda interesarte..";
+  buyuse=0;
+  document.getElementById("situacion").value="Trasgo comerciante: Bienvenido aventurero! Tengo poderosos pergaminos por 50 monedas, pociones y raciones de viaje a solo 30. Una verdadera ganga!!! ...al menos si consideras tu situacion jeje";
+  document.getElementById("percont").value=magia+"+1";
+  document.getElementById("racont").value=miam+"+1";
+  document.getElementById("potcont").value=pota+"+1";
 }
+
 
 function monsatk(){
   if (random()<3){ //Monstruo, daña o falla?
@@ -170,54 +180,86 @@ function descansar(){
 }
 
 function usepot(){
-  if (pota>0){
-    herohp=herohp+2;
-    pota=pota-1;
-    document.getElementById("potcont").value=pota;
-    document.getElementById("situacion").value="Ingieres el contenido del frasco.. Tus heridas sanan frente a tus ojos.";
-    if (herohp>6){
-      herohp=6;
-      document.getElementById("vidas").value=herohp;
+  if (buyuse==1){
+    if (pota>0){
+      herohp=herohp+2;
+      pota=pota-1;
+      document.getElementById("potcont").value=pota;
+      document.getElementById("situacion").value="Ingieres el contenido del frasco.. Tus heridas sanan frente a tus ojos.";
+      if (herohp>6){
+        herohp=6;
+        document.getElementById("vidas").value=herohp;
+      }else{
+        document.getElementById("vidas").value=herohp;
+      }
+    }
+  }else{
+    if(oro>=30){
+      oro=oro-30;
+      pota=pota+1;
+      document.getElementById("potcont").value=pota+"+1";
+      document.getElementById("orocont").value=oro;
     }else{
-    document.getElementById("vidas").value=herohp;
+      document.getElementById("situacion").value="No me hagas perder el tiempo..";
     }
   }
 }
 
 function usera(){
-  if (miam>0){
-    sta=sta+6;
-    miam=miam-1;
-    document.getElementById("racont").value=miam;
-    document.getElementById("situacion").value="Miam.. enguyes una racion borazmente...";
-    if (sta>12){
-      sta=12;
-      document.getElementById("stamina").value=sta;
+  if(buyuse==1){
+    if (miam>0){
+      sta=sta+6;
+      miam=miam-1;
+      document.getElementById("racont").value=miam;
+      document.getElementById("situacion").value="Miam.. enguyes una racion borazmente...";
+      if (sta>12){
+        sta=12;
+        document.getElementById("stamina").value=sta;
+      }else{
+        document.getElementById("stamina").value=sta;
+      }
+    }
+  }else{
+    if(oro>=30){
+      oro=oro-30;
+      miam=miam+1;
+      document.getElementById("racont").value=miam+"+1";
+      document.getElementById("orocont").value=oro;
     }else{
-    document.getElementById("stamina").value=sta;
+      document.getElementById("situacion").value="No me hagas perder el tiempo..";
     }
   }
 }
 
 function useper(){
-  if (magia>0){
-    if (incombat==1){
-      magia=magia-1;
-      document.getElementById("percont").value=magia;
-      document.getElementById("situacion").value="Una cegadora llama blanca embuelve a la criatura reduciendola a cenizas!";
-      document.getElementById("situacion").value="Haz ganado 50pts por tu victoria!";
-      score=score+50;
-      oro=oro+Math.round(random()/2);
-      document.getElementById("score").value=score;
+  if (buyuse==1){
+    if (magia>0){
+      if (incombat==1){
+        magia=magia-1;
+        document.getElementById("percont").value=magia;
+        document.getElementById("situacion").value="Una cegadora llama blanca embuelve a la criatura reduciendola a cenizas!";
+        document.getElementById("situacion").value="Haz ganado 50pts por tu victoria!";
+        score=score+50;
+        oro=oro+Math.round(random()/2);
+        document.getElementById("score").value=score;
+        document.getElementById("orocont").value=oro;
+        monshp=0;
+        incombat=0;
+      }else{
+      document.getElementById("situacion").value="No tiene sentido utilizar esto ahora..";
+      }
+    }
+  }else{
+    if(oro>=45){
+      oro=oro-45;
+      magia=magia+1;
+      document.getElementById("percont").value=magia+"+1";
       document.getElementById("orocont").value=oro;
-      monshp=0;
-      incombat=0;
     }else{
-        document.getElementById("situacion").value="No tiene sentido utilizar esto ahora..";
+      document.getElementById("situacion").value="No me hagas perder el tiempo..";
     }
   }
 }
-
 
 /*function trasgo(){
   if (random()<4);
@@ -237,12 +279,13 @@ function newgame(){
   score=0;
   herohp=6;
   monshp=3;
-  incombat=0;
+  incombat=0; //Define si estamos en batalla(1) o ne(0).
   sta=12;
-  oro=4;
-  pota=5;
-  miam=5;
-  magia=5;
+  oro=1000;
+  pota=10;
+  miam=10;
+  magia=10;
+  buyuse=1; //Define si los botones usan(1) o adquieren(0)los objetos.
 
   document.getElementById("ngame").disabled=true;
   document.getElementById("av").disabled=false;
@@ -262,6 +305,7 @@ function newgame(){
   document.getElementById("potcont").value=pota;
   document.getElementById("racont").value=miam;
   document.getElementById("percont").value=magia;
+  document.getElementById("orocont").value=oro;
 }
 
 document.getElementById("av").disabled=true;
