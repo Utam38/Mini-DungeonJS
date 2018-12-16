@@ -7,11 +7,19 @@
   </head>
 
   <body>
+
     <div class="contenedor">
       <p>#Mini-Dungeon <span>JS</span></p>
       <div class="namescore">
         <label for="name">HÉROE: </label>
         <input type="text" value="Aventurero" id="name" size="12"></input>
+
+        <label for="vidas">PV: </label>
+        <input type="text" value=5 id="vidas" size="1"></input>
+
+        <label for="stamina">STA: </label>
+        <input type="text" value=9 id="stamina" size="1"></input>
+
         <label for="score">SCORE: </label>
         <input type="text" value=0 id="score" size="12"></input>
       </div>
@@ -23,178 +31,40 @@
         </div>
 
         <div class="mochila">
-          <label for="obj1">Mochila: 1-</label>
+
+          <label for="potbot">Mochila:</label><!--Solo por el texto "Mochila"-->
+
+          <input type="button" id="potbot" value="Pocion" onClick="usepot()">
+          <label for="potcont"></label>
+          <input type="text" id="potcont" value=0 size="1">-</input>
+
+          <input type="button" id="rabot" value="Racion" onClick="usera()">
+          <label for="racont"></label>
+          <input type="text" id="racont" value=0 size="1">-</input>
+
+          <input type="button" id="perbot" value="Pergamino" onClick="useper()">
+          <label for="percont"></label>
+          <input type="text" id="percont" value=0 size="1"></input>
+
+          <label for="orocont">Oro:</label>
+          <input type="text" id="orocont" value=0 size="1"></input>
+          <!--<label for="obj1">Mochila: 1-</label>
           <input type="text" id="obj1" value="Vacio" size="12"></input>
           <label for="obj2">2-</label>
           <input type="text" id="obj2" value="Vacio" size="12"></input>
           <label for="obj3">3-</label>
-          <input type="text" id="obj3" value="Vacio" size="12"></input>
-        </div>
-
-        <div class="vidas">
-          <form>
-            <label for="vidas">Vidas: </label>
-            <input type="text" value=5 id="vidas" size="1"></input>
+          <input type="text" id="obj3" value="Vacio" size="12"></input>-->
         </div>
 
         <div class="accion">
-          <form>
             <input type="button" id="av" value="Avanzar" onClick="avanzar()">
             <input type="button" id="de" value="Descansar" onClick="descansar()">
             <input type="button" id="at" value="Atacar!" onClick="atacar()">
-
-            <!--<p>¿Que deceas hacer?</p>
-            <input type="text" value="<cmd>" id="cmd"></input>-->
         </div>
-
+        <div>
+          <input type="button" id="ngame" value="COMENZAR AVENTURA" onClick="newgame()">
+        </div>
       </div>
-
-<!--JS SCRIPT------------------>
-    <script>
-
-      //Declaro variables:
-      var name;
-      var score;
-      var empiezo;
-      var herohp;
-      var monshp;
-      var random;
-      var incombat;
-
-      //Declaro funciones:
-      function random(){
-        return (Math.floor(Math.random() * 9) + 1);
-      }
-
-      function avanzar(){
-        if (incombat==1){
-          document.getElementById("situacion").value="Huyes del combate. Pierder 50 puntos...";
-          if (score<50){
-            score=0;
-            document.getElementById("score").value=score;
-            incombat=0;
-          }else{
-            score= score-50;
-            document.getElementById("score").value=score;
-            incombat=0;
-          }
-        }else{
-          score= score+10;
-          document.getElementById("score").value=score;
-          document.getElementById("situacion").value="Haz ganado 10 puntos por exploración.";
-
-          //setTimeout(time(), 1000);
-          //sleep(3000);
-          combate();
-        }
-      }
-
-      function combate(){
-        if (random()<6){ //Hay combate?
-          incombat=1;
-          document.getElementById("situacion").value="Un monstruo se acerca!";
-          if (random()<4){ //Quien empieza?
-            document.getElementById("situacion").value="El monstruo te ataca!";
-            monsatk();
-          }
-        }else{
-          document.getElementById("situacion").value="La sala esta tranquila.";
-        }
-      }
-
-
-      function monsatk(){
-        if (random()<3){ //Monstruo, daña o falla?
-          document.getElementById("situacion").value="La ciatura te daña!";
-          herohp=herohp-1;
-          //
-          if (herohp<1){
-            herohp=0;
-            document.getElementById("vidas").value=herohp;
-            document.getElementById("situacion").value="GAME OVER... presiona f5 para comenzar una nueva partida.";
-            incombat=0;
-            gameover();
-          }else{
-            document.getElementById("vidas").value=herohp;
-          }
-          //
-        }else{
-          document.getElementById("situacion").value="La ciatura falla su ataque";
-        }
-      }
-
-      function atacar(){
-        if (incombat==1){
-          if (random()<3){ //Heroe, daña o falla?
-            document.getElementById("situacion").value="Dañas a la criatura!";
-            monshp=monshp-1;
-           if (monshp<1){
-              document.getElementById("situacion").value="DAS MUERTE AL MONSTRUO! Haz ganado 60 puntos por tu victoria.";
-              score=score+60;
-              document.getElementById("score").value=score;
-              incombat=0;
-              monshp=3;
-            }
-          }else{
-            document.getElementById("situacion").value="Fallas tu ataque";
-            monsatk();
-          }
-        }else{
-          document.getElementById("situacion").value="Abanicas tu espada al aire... ¡¿Que intentas hacer?!";
-        }
-      }
-
-      function descansar(){
-        if (herohp<5 && incombat==0){
-          document.getElementById("situacion").value="Te acurrucas en un rincon e intentas descansar";
-          if (random()<7){
-          document.getElementById("situacion").value="Te levantas mas descansado ..aunque con la espalda algo entuecida. Recuperas 1 punto de vida!";
-          herohp=herohp+1;
-          document.getElementById("vidas").value=herohp;
-          }else{
-          incombat=1;
-          monsatk();
-          }
-        }else{
-          document.getElementById("situacion").value="No puedes descansar ahora!";
-        }
-      }
-
-      //Funcion copy/paste...
-      /*function sleep() {
-        var start = new Date().getTime();
-        for (var i = 0; i < 1e7; i++) {
-          if ((new Date().getTime() - start) > 1000){
-            break;
-          }
-        }
-      }*/
-
-      function gameover(){
-          document.getElementById("av").disabled=true;
-          document.getElementById("at").disabled=true;
-          document.getElementById("de").disabled=true;
-      }
-
-      //Inicializo variables:
-      score=0;
-      herohp=5;
-      monshp=3;
-      incombat=0;
-
-      //comienzo de ejecucion:
-      document.getElementById("situacion").value="Luego de un arduo viaje al fin haz llegado a la mazmorra de Ohregon. Su imponente portal esta erguido frente a ti inmutable al pasar de los siglos.. como si alguna extraña magia lo mantubiera indiferente del tiempo...";
-      document.getElementById("score").value=0;
-      document.getElementById("vidas").value=herohp;
-      name=prompt("¿Quien osa irrumpir en mis dominios?...");
-      document.getElementById("name").value=name;
-      document.getElementById("situacion").value="Cruzas el umbral y te sumerges en las penumbras de la mazmorra...";
-
-      document.getElementById("score").disabled=true;
-      document.getElementById("situacion").disabled=true;
-      document.getElementById("name").disabled=true;
-      document.getElementById("vidas").disabled=true;
-
-    </script>
+    <script type="text/javascript" src="scripts/script.js"></script>
   </body>
 </html>
