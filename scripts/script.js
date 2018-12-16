@@ -8,10 +8,21 @@ var random;
 var incombat;
 var sta;
 var oro;
+var pota;
+var miam;
+var magia;
+var rmem;
+//var pergamino;
+//var racion;
 
 //Declaro funciones:
-function random(){
+/*function random(){
   return (Math.floor(Math.random() * 9) + 1);
+}*/
+
+function random(){
+  rmem=(Math.floor(Math.random() * 9) + 1);
+  return rmem;
 }
 
 function avanzar(){
@@ -47,16 +58,46 @@ function avanzar(){
 function combate(){
   if (random()<6){ //Hay combate?
     incombat=1;
+    monshp=3;
     document.getElementById("situacion").value="Un monstruo se acerca!";
     if (random()<4){ //Quien empieza?
       document.getElementById("situacion").value="El monstruo te ataca!";
       monsatk();
     }
   }else{
-    document.getElementById("situacion").value="La sala esta tranquila.";
+    if (rmem==6){
+      document.getElementById("de").setAttribute("onClick", "extraño();");
+      document.getElementById("situacion").value="Extraño: Luces exausto, aqui es seguro. Porque no entras y descansas un poco.";
+    }
+    if (rmem==7){
+      trasgo();
+    }
+    if (rmem>7){
+      document.getElementById("situacion").value="La sala esta tranquila.";
+    }
   }
 }
 
+function extraño(){
+  herohp=6;
+  sta=12;
+  if (random()<6){
+    magia=0;
+    pota=0;
+    miam=0;
+    oro=0;
+    document.getElementById("percont").value=magia;
+    document.getElementById("potcont").value=pota;
+    document.getElementById("racont").value=miam;
+    document.getElementById("orocont").value=oro;
+  }
+  document.getElementById("situacion").value="Descansaste maravillosamente! incluso te sientes mas liviano..";
+  document.getElementById("de").setAttribute("onClick", "descansar();");
+}
+
+function trasgo(){
+  document.getElementById("situacion").value="Trasgo comerciante: Bienvenido aventurero! quizas tenga algo que pueda interesarte..";
+}
 
 function monsatk(){
   if (random()<3){ //Monstruo, daña o falla?
@@ -87,7 +128,7 @@ function atacar(){
         document.getElementById("score").value=score;
         document.getElementById("orocont").value=oro;
         incombat=0;
-        monshp=3;
+        //monshp=3;
         sta=sta-3;
         if (sta<1){
           gameover();
@@ -128,8 +169,60 @@ function descansar(){
   }
 }
 
+function usepot(){
+  if (pota>0){
+    herohp=herohp+2;
+    pota=pota-1;
+    document.getElementById("potcont").value=pota;
+    document.getElementById("situacion").value="Ingieres el contenido del frasco.. Tus heridas sanan frente a tus ojos.";
+    if (herohp>6){
+      herohp=6;
+      document.getElementById("vidas").value=herohp;
+    }else{
+    document.getElementById("vidas").value=herohp;
+    }
+  }
+}
 
-//function usepot(){
+function usera(){
+  if (miam>0){
+    sta=sta+6;
+    miam=miam-1;
+    document.getElementById("racont").value=miam;
+    document.getElementById("situacion").value="Miam.. enguyes una racion borazmente...";
+    if (sta>12){
+      sta=12;
+      document.getElementById("stamina").value=sta;
+    }else{
+    document.getElementById("stamina").value=sta;
+    }
+  }
+}
+
+function useper(){
+  if (magia>0){
+    if (incombat==1){
+      magia=magia-1;
+      document.getElementById("percont").value=magia;
+      document.getElementById("situacion").value="Una cegadora llama blanca embuelve a la criatura reduciendola a cenizas!";
+      document.getElementById("situacion").value="Haz ganado 50pts por tu victoria!";
+      score=score+50;
+      oro=oro+Math.round(random()/2);
+      document.getElementById("score").value=score;
+      document.getElementById("orocont").value=oro;
+      monshp=0;
+      incombat=0;
+    }else{
+        document.getElementById("situacion").value="No tiene sentido utilizar esto ahora..";
+    }
+  }
+}
+
+
+/*function trasgo(){
+  if (random()<4);
+    document.getElementById("situacion").value="Trasgo comerciante: Bienvenido aventurero! quizas algo de esto podria serte de utilidad...";
+}*/
 
 
 function gameover(){
@@ -147,6 +240,9 @@ function newgame(){
   incombat=0;
   sta=12;
   oro=4;
+  pota=5;
+  miam=5;
+  magia=5;
 
   document.getElementById("ngame").disabled=true;
   document.getElementById("av").disabled=false;
@@ -163,9 +259,10 @@ function newgame(){
   document.getElementById("score").value=0;
   document.getElementById("vidas").value=herohp;
   document.getElementById("stamina").value=sta;
+  document.getElementById("potcont").value=pota;
+  document.getElementById("racont").value=miam;
+  document.getElementById("percont").value=magia;
 }
-
-//comienzo de ejecucion:
 
 document.getElementById("av").disabled=true;
 document.getElementById("at").disabled=true;
