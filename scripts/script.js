@@ -7,10 +7,22 @@ var monshp;
 var random;
 var incombat;
 var sta;
+var oro;
+var pota;
+var miam;
+var magia;
+var rmem;
+//var pergamino;
+//var racion;
 
 //Declaro funciones:
-function random(){
+/*function random(){
   return (Math.floor(Math.random() * 9) + 1);
+}*/
+
+function random(){
+  rmem=(Math.floor(Math.random() * 9) + 1);
+  return rmem;
 }
 
 function avanzar(){
@@ -39,8 +51,6 @@ function avanzar(){
       gameover();
     }
     document.getElementById("stamina").value=sta;
-    //setTimeout(time(), 1000);
-    //sleep(3000);
     combate();
   }
 }
@@ -48,16 +58,46 @@ function avanzar(){
 function combate(){
   if (random()<6){ //Hay combate?
     incombat=1;
+    monshp=3;
     document.getElementById("situacion").value="Un monstruo se acerca!";
     if (random()<4){ //Quien empieza?
       document.getElementById("situacion").value="El monstruo te ataca!";
       monsatk();
     }
   }else{
-    document.getElementById("situacion").value="La sala esta tranquila.";
+    if (rmem==6){
+      document.getElementById("de").setAttribute("onClick", "extraño();");
+      document.getElementById("situacion").value="Extraño: Luces exausto, aqui es seguro. Porque no entras y descansas un poco.";
+    }
+    if (rmem==7){
+      trasgo();
+    }
+    if (rmem>7){
+      document.getElementById("situacion").value="La sala esta tranquila.";
+    }
   }
 }
 
+function extraño(){
+  herohp=6;
+  sta=12;
+  if (random()<6){
+    magia=0;
+    pota=0;
+    miam=0;
+    oro=0;
+    document.getElementById("percont").value=magia;
+    document.getElementById("potcont").value=pota;
+    document.getElementById("racont").value=miam;
+    document.getElementById("orocont").value=oro;
+  }
+  document.getElementById("situacion").value="Descansaste maravillosamente! incluso te sientes mas liviano..";
+  document.getElementById("de").setAttribute("onClick", "descansar();");
+}
+
+function trasgo(){
+  document.getElementById("situacion").value="Trasgo comerciante: Bienvenido aventurero! quizas tenga algo que pueda interesarte..";
+}
 
 function monsatk(){
   if (random()<3){ //Monstruo, daña o falla?
@@ -82,11 +122,13 @@ function atacar(){
       document.getElementById("situacion").value="Dañas a la criatura!";
       monshp=monshp-1;
      if (monshp<1){
-        document.getElementById("situacion").value="DAS MUERTE AL MONSTRUO! Haz ganado 60 puntos por tu victoria.";
+        document.getElementById("situacion").value="DAS MUERTE AL MONSTRUO! Haz ganado 60pts por tu victoria.";
         score=score+60;
+        oro=oro+Math.round(random()/2);
         document.getElementById("score").value=score;
+        document.getElementById("orocont").value=oro;
         incombat=0;
-        monshp=3;
+        //monshp=3;
         sta=sta-3;
         if (sta<1){
           gameover();
@@ -127,15 +169,61 @@ function descansar(){
   }
 }
 
-//Funcion copy/paste...
-/*function sleep() {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > 1000){
-      break;
+function usepot(){
+  if (pota>0){
+    herohp=herohp+2;
+    pota=pota-1;
+    document.getElementById("potcont").value=pota;
+    document.getElementById("situacion").value="Ingieres el contenido del frasco.. Tus heridas sanan frente a tus ojos.";
+    if (herohp>6){
+      herohp=6;
+      document.getElementById("vidas").value=herohp;
+    }else{
+    document.getElementById("vidas").value=herohp;
     }
   }
+}
+
+function usera(){
+  if (miam>0){
+    sta=sta+6;
+    miam=miam-1;
+    document.getElementById("racont").value=miam;
+    document.getElementById("situacion").value="Miam.. enguyes una racion borazmente...";
+    if (sta>12){
+      sta=12;
+      document.getElementById("stamina").value=sta;
+    }else{
+    document.getElementById("stamina").value=sta;
+    }
+  }
+}
+
+function useper(){
+  if (magia>0){
+    if (incombat==1){
+      magia=magia-1;
+      document.getElementById("percont").value=magia;
+      document.getElementById("situacion").value="Una cegadora llama blanca embuelve a la criatura reduciendola a cenizas!";
+      document.getElementById("situacion").value="Haz ganado 50pts por tu victoria!";
+      score=score+50;
+      oro=oro+Math.round(random()/2);
+      document.getElementById("score").value=score;
+      document.getElementById("orocont").value=oro;
+      monshp=0;
+      incombat=0;
+    }else{
+        document.getElementById("situacion").value="No tiene sentido utilizar esto ahora..";
+    }
+  }
+}
+
+
+/*function trasgo(){
+  if (random()<4);
+    document.getElementById("situacion").value="Trasgo comerciante: Bienvenido aventurero! quizas algo de esto podria serte de utilidad...";
 }*/
+
 
 function gameover(){
   document.getElementById("situacion").value="Tu vista se nubla y antes de entender la situacion, te ves enbuelto en una eterna caida.. tus sentidos se apasiguan, tu corazon se acelera y el tiempo parece detenerse... Pero oyes algo en medio de tu desorientacion. Algo que te marca el camino, una voz suena dentro de tu cabeza... o desde el corazon de la mazmorra... ya no puedes distinguirlo. Su mansage no usa palabras pero comprendes su significado con absoluta claridad, la vos dice; te esta diciendo... Bienvenido... "
@@ -151,27 +239,42 @@ function newgame(){
   monshp=3;
   incombat=0;
   sta=12;
+  oro=4;
+  pota=5;
+  miam=5;
+  magia=5;
 
   document.getElementById("ngame").disabled=true;
   document.getElementById("av").disabled=false;
   document.getElementById("at").disabled=false;
   document.getElementById("de").disabled=false;
+
+  document.getElementById("potbot").disabled=false;
+  document.getElementById("rabot").disabled=false;
+  document.getElementById("perbot").disabled=false;
+
   name=prompt("¡¿QUIEN OSA IRRUMPIR EN MIS DOMINIOS...?!");
   document.getElementById("name").value=name;
   document.getElementById("situacion").value="Cruzas el umbral y te sumerges en las penumbras de la mazmorra...";
   document.getElementById("score").value=0;
   document.getElementById("vidas").value=herohp;
   document.getElementById("stamina").value=sta;
+  document.getElementById("potcont").value=pota;
+  document.getElementById("racont").value=miam;
+  document.getElementById("percont").value=magia;
 }
-
-//Inicializo variables:
-
-
-//comienzo de ejecucion:
 
 document.getElementById("av").disabled=true;
 document.getElementById("at").disabled=true;
 document.getElementById("de").disabled=true;
+
+document.getElementById("potcont").disabled=true;
+document.getElementById("racont").disabled=true;
+document.getElementById("percont").disabled=true;
+document.getElementById("potbot").disabled=true;
+document.getElementById("rabot").disabled=true;
+document.getElementById("perbot").disabled=true;
+document.getElementById("orocont").disabled=true;
 
 document.getElementById("stamina").disabled=true;
 document.getElementById("score").disabled=true;
