@@ -6,32 +6,120 @@
 
 body{
   display: flex;
-  justify-content:center;
+  justify-content:space-around;
   background-image:url("contents/fondo.jpg");
   background-size: 1366px auto;
 }
 
-p{
+input[type|="text"]{
+  background-color: black;
+  border:0;
+  color: green;
+}
+
+input[type|="button"]{
+  background-color: gray;
+  border-radius: 100%;
+  color: black;
+  padding: 3px;
+  min-width: 28px;
+}
+
+.contenedor p{
   font-size:40px;
 }
 
-span{
+.jslogo{
   font-size: 20px;
   color: black;
   background-color:rgba(215,218,36,0.80);
   padding:8px 2px 0px 11px;
 }
 
-.contenedor{
-  margin-top:4.5%;
+h2{
+  margin-bottom:10%;
+  color: silver;
+}
+
+.completada{
+  color:gold;
+}
+
+.barLati{
+  margin-top:1%;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  width: 50%;
-  padding: 2% 5% 5% 5%;
+  height: 1%;
+  flex-basis:12%;
+  padding: 1% 2% 1% 2%;
   background-color:rgba(69,70,62,0.5);
-  border:black solid 5px;
+  border-radius: 10% 10% 10% 10%;
+  box-shadow:inset 1px 1px 20px 5px gray,20px 20px 30px 30px black;
+}
+
+.barLatd{
+  margin-top:1%;
+  display:flex;
+  flex-direction:column;
+  /*justify-content:center;
+  align-items:center;
+  height: 1%;
+  width:1000px;
+  flex-basis:15%;*/
+  padding: 1% 5% 1% 2%;
+  background-color:rgba(69,70,62,0.5);
+  border-radius: 10% 10% 10% 10%;
+  box-shadow:inset 1px 1px 20px 5px gray,20px 20px 30px 30px black;
+}
+
+strong{
+  color:greenyellow;
+  font-size:20px;
+}
+
+.contenedor{
+  margin-top:1%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height: 10%;
+  flex-basis:50%;
+  padding: 5% 2% 10% 2%;
+  background-color:rgba(69,70,62,0.5);
+  border-radius: 5% 5% 100% 100%;
+  box-shadow:inset 1px 1px 20px 5px gray,20px 20px 30px 30px black;
+}
+
+.contenedor{
+  margin-top:1%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height: 10%;
+  flex-basis:50%;
+  padding: 5% 2% 10% 2%;
+  background-color:rgba(69,70,62,0.5);
+  border-radius: 5% 5% 100% 100%;
+  box-shadow:inset 1px 1px 20px 5px gray,20px 20px 30px 30px black;
+}
+
+.contBlood{
+  margin-top:1%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height: 10%;
+  flex-basis:50%;
+  padding: 5% 2% 10% 2%;
+  background-color:rgba(69,70,62,0.5);
+  border-radius: 5% 5% 100% 100%;
+  transition:3s;
+  box-shadow:inset 1px 1px 20px 5px gray,20px 20px 30px 30px black,0px 0px 10px 10px red;
 }
 
 .namescore{
@@ -55,12 +143,57 @@ span{
   width:90%;
 }
 
-.situacion{
-  margin-top:2%;
-  background-color:black;
+.luz{
+  transition:0.8s;
+  box-shadow:0px 0px 20px 10px greenyellow;
+  color:greenyellow !important;
+  font-weight:bold;
+  text-shadow:0em 0em 10em green;
+}
+
+.blood{
+  transition:0.8s;
+  box-shadow:0px 0px 20px 10px red;
+  color:red !important;
+  font-weight:bold;
+  text-shadow:0em 0em 50em red;
+}
+
+.red{
+  color:red!important;
+  /*text-shadow:50em 50em 50em red!important;*/
+}
+
+.consBlood{
+  /*display:flex;
+  align-items:center;
+  flex-direction:column;
+  background-color:#545454;
   color:green;
   border:solid gray 2px;
+  padding: 2px;
+  margin-top: 5px;
+  width:90%;*/
+  transition: 3s;
+  /*animation-duration: 3s;*/
+  /*animation-name: peligro 5s ease inifinite alternate;*/
+  /*animation-iteration-count: infinite;*/
+  box-shadow:inset 1px 1px 20px 1px red;
 }
+
+input[type|="button"].deshabilitado{
+  color:#BABABA;
+}
+
+#situacion{
+  /*min-width:400px;
+  height:200px;*/
+  margin-top:2%;
+  background-color: black;
+  color:gray;
+  border:solid gray 2px;
+}
+
 
 .mochila{
   justify-content:space-around;
@@ -72,6 +205,19 @@ span{
   padding: 2px;
   margin: 5px;
   width:90%;
+}
+
+.mochila input{
+    background-color: black;
+    border:0;
+    color: green;
+}
+
+#potbot:hover, #rabot:hover, #perbot:hover{
+  border-radius: 0;
+  background-color: green;
+  border:0;
+  color: black;
 }
 
 .objetos{
@@ -93,6 +239,10 @@ span{
 }
 
 .accion{
+  width: 70%;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
   color: white;
   margin:5%;
   border: solid gray 1px;
@@ -104,3 +254,12 @@ span{
   width:90%;
   padding:20px;
 }
+
+/*@-moz-keyframes peligro {
+  0% {
+    box-shadow:inset 1px 1px 50px 1px green;
+  }
+  100% {
+    box-shadow:inset 1px 1px 20px 1px red;
+  }
+}*/
