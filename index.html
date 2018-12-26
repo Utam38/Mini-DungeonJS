@@ -7,64 +7,110 @@
   </head>
 
   <body>
-
-    <div class="contenedor">
-      <p>#Mini-Dungeon <span>JS</span></p>
-      <div class="namescore">
-        <label for="name">HÉROE: </label>
-        <input type="text" value="Aventurero" id="name" size="12"></input>
-
-        <label for="vidas">PV: </label>
-        <input type="text" value=5 id="vidas" size="1"></input>
-
-        <label for="stamina">STA: </label>
-        <input type="text" value=9 id="stamina" size="1"></input>
-
-        <label for="score">SCORE: </label>
-        <input type="text" value=0 id="score" size="12"></input>
+    <!--<div class="megaCont">-->
+      <div class="barLati" #id="contenedor">
+        <h2>Logros</h2>
+        <span id="cazador"><p><abbr title="Mision: Derrota 5 monstruos // Recompenza: Poción(+1)-Puntos(+100)">Cazador<abbr></p></span>
+        <span id="confiado"><p><abbr title="Mision: Acepta 2 veces la invitacion del extraño // Recompenza: Oro(+30) Puntos(+45)">Confiado<abbr></p></span>
+        <span id="materialista"><p><abbr title="Mision: Compra 4 objetos a Kublim // Recompenza: Puntos(+400)">Materialista<abbr></p></span>
+        <span id="explorador"><p><abbr title="Mision: Explora 10 salas de la mazmorra // Recompenza: Racion(+3)">Explorador<abbr></p></span>
+        <span id="escurridizo"><p><abbr title="Mision: Huye de 3 enfrentamientos // Recompenza: Oro(+20)-Puntos(+20)">.Escurridizo<abbr></p></span>
+        <span id="tacaño"><p><abbr title="Mision: Acumula 200 piezas de oro // Recompenza: Pergaminos(+2)-Puntos(+30)">.Tacaño<abbr></p></span>
+        <span id="hechicero"><p><abbr title="Mision: Elimina 3 monstruos utilizando pergaminos // Recompenza: Oro(+75)-Puntos(+15)">.Hechicero<abbr></p></span>
+        <p><strong><abbr title="Los logros que comienzan en punto no estan implementados.">*</abbr></strong><p><!--Comentario-->
       </div>
+      <div class="contenedor" id="contenedor">
+        <p>#Mini-Dungeon <span class="jslogo">JS</span></p>
+        <div class="namescore">
+          <label for="name">Héroe: </label>
+          <input type="text" value="Aventurero" id="name" size="12"></input>
 
-      <!--CONSOLA: situacion, objetos, vidas e input cmd------------------>
-      <div class="consola">
-        <div class="situacion">
-          <textarea id="situacion" cols="51" rows="10"></textarea>
+          <label for="vidas">Pts.Vitalidad: </label>
+          <input type="text" value=5 id="vidas" size="1"></input>
+
+          <label for="stamina">Stamina: </label>
+          <input type="text" value=9 id="stamina" size="1"></input>
+
+          <label for="score">Score: </label>
+          <input type="text" value=0 id="score" size="8"></input>
         </div>
 
-        <div class="mochila">
+        <!--CONSOLA: situacion, objetos, vidas e input cmd------------------>
+        <div class="consola">
+            <textarea id="situacion" class="" cols="51" rows="10"></textarea>
+          </div>
 
-          <label for="potbot">Mochila:</label><!--Solo por el texto "Mochila"-->
+          <div class="mochila">
+            <label  for="potbot">Mochila:</label><!--Solo por el texto "Mochila"-->
+            <input type="button" id="potbot" value="Pocion" onClick="usepot()">
+            <label for="potcont"></label>
+            <input type="text" id="potcont" value=0 size="1">-</input>
+            <input type="button" id="rabot" value="Racion" onClick="usera()">
+            <label for="racont"></label>
+            <input type="text" id="racont" value=0 size="1">-</input>
 
-          <input type="button" id="potbot" value="Pocion" onClick="usepot()">
-          <label for="potcont"></label>
-          <input type="text" id="potcont" value=0 size="1">-</input>
+            <input type="button" id="perbot" value="Perg." onClick="useper()">
+            <label  for="percont"></label>
+            <input type="text" id="percont" value=0 size="1"></input>
 
-          <input type="button" id="rabot" value="Racion" onClick="usera()">
-          <label for="racont"></label>
-          <input type="text" id="racont" value=0 size="1">-</input>
+            <label for="orocont">Oro:</label>
+            <input type="text" id="orocont" value=0 size="1"></input>
+            <!--<label for="obj1">Mochila: 1-</label>
+            <input type="text" id="obj1" value="Vacio" size="12"></input>
+            <label for="obj2">2-</label>
+            <input type="text" id="obj2" value="Vacio" size="12"></input>
+            <label for="obj3">3-</label>
+            <input type="text" id="obj3" value="Vacio" size="12"></input>-->
+          </div>
 
-          <input type="button" id="perbot" value="Pergamino" onClick="useper()">
-          <label for="percont"></label>
-          <input type="text" id="percont" value=0 size="1"></input>
+          <div class="accion">
+            <div>
+              <input type="button" id="ngame" value="COMENZAR" onClick="newgame()">
+              <input class="" type="button" id="inf" value="?" onClick="infoBienv()">
+            </div>
+            <div>
+              <input class="" type="button" id="av" value="Avanzar" onClick="avanzar()">
+              <input type="button" id="de" value="Descansar" onClick="descansar()">
+              <input type="button" id="at" value="Atacar!" onClick="atacar()">
+            </div>
+          </div>
 
-          <label for="orocont">Oro:</label>
-          <input type="text" id="orocont" value=0 size="1"></input>
-          <!--<label for="obj1">Mochila: 1-</label>
-          <input type="text" id="obj1" value="Vacio" size="12"></input>
-          <label for="obj2">2-</label>
-          <input type="text" id="obj2" value="Vacio" size="12"></input>
-          <label for="obj3">3-</label>
-          <input type="text" id="obj3" value="Vacio" size="12"></input>-->
         </div>
-
-        <div class="accion">
-            <input type="button" id="av" value="Avanzar" onClick="avanzar()">
-            <input type="button" id="de" value="Descansar" onClick="descansar()">
-            <input type="button" id="at" value="Atacar!" onClick="atacar()">
+        <div class="barLatd">
+          <h2>Tabla</h2>
+            <ol>
+              <li>Utam38 . . . . . . .2839pts</li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <p><strong><abbr title="De momento no implementada.">*</abbr></strong><p><!--Comentario-->
+              <p><i>.</i><p><!--Comentario-->
         </div>
-        <div>
-          <input type="button" id="ngame" value="COMENZAR AVENTURA" onClick="newgame()">
-        </div>
-      </div>
+      <!--</div>-->
     <script type="text/javascript" src="scripts/script.js"></script>
   </body>
 </html>
