@@ -436,10 +436,10 @@ function newgame(){
   monshp=3;
   incombat=false;
   sta=12;
-  oro=9999;
-  pota=99;
-  miam=99;
-  magia=99;
+  oro=17;
+  pota=1;
+  miam=1;
+  magia=1;
   buyuse=true; //Define si los botones usan(true) o adquieren(false)los objetos.
   mataMons=0;
   confiar=0;
