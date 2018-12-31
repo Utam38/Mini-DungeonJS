@@ -1,4 +1,6 @@
-//Declaro variables:
+/*/////////////////////////////////////////////////////////////////////////
+VARIABLES SIMPLES - HAY MAS VARIABLES DEFINIDAS EN LAS ULTIMAS LINEAS
+/////////////////////////////////////////////////////////////////////////*/
 var name,
     score,
     empiezo,
@@ -18,14 +20,24 @@ var name,
     mataMons,
     confiar,
     cuatroObjetos,
-    explorado;
+    explorado,
+    exploradorCompleta;
+
+/*/////////////////////////////////////////////////////////////////////////
+                                RANDOM
+/////////////////////////////////////////////////////////////////////////*/
 
 function random(){
   rmem=(Math.floor(Math.random() * 9) + 1);
   return rmem;
 }
 
+/*/////////////////////////////////////////////////////////////////////////
+                              ACCIONES
+/////////////////////////////////////////////////////////////////////////*/
+
 function avanzar(){
+  document.getElementById("situacion").className=""
   buyuse=true;
   document.getElementById("racont").value=miam;
   document.getElementById("potcont").value=pota;
@@ -46,7 +58,7 @@ function avanzar(){
     sta=sta-2;
     if (sta<5){
       lowSta.className = "red";
-      consola.className="consBlood";
+      peligro.className="Blood";
     }
     if (sta<1){
       gameover();
@@ -59,7 +71,7 @@ function avanzar(){
     sta=sta-1;
     if (sta<5){
       lowSta.className = "red";
-      consola.className="consBlood";
+      peligro.className="Blood";
     }
     if (sta<1){
       gameover();
@@ -69,41 +81,96 @@ function avanzar(){
   }
 }
 
-function combate(){
-  if (random()<6){ //Hay combate?
-    incombat=true;
-    monshp=3;
-    //document.getElementById("situacion").value="Un monstruo se acerca!";
-    setTimeout(viene(),5000);
-    //
-    if (random()<4){ //Quien empieza?
-      //document.getElementById("situacion").value="El monstruo te ataca!";
-      setTimeout(ataca(),5000);
-      //
+
+function descansar(){
+  document.getElementById("situacion").className=""
+  if (incombat==false){
+    document.getElementById("situacion").value="Te acurrucas en un rincon e intentas descansar";
+    if (random()<7){
+      document.getElementById("situacion").value="Te levantas mas descansado ..aunque con la espalda algo entumecida.";
+      if (sta==12 && herohp<6){
+        herohp=herohp+1;
+        if(sta>4 && herohp>2){
+          peligro.className="namescore";
+          document.getElementById("vidas").className="";
+        }
+      document.getElementById("vidas").value=herohp;
+      }
+      if (sta<12){
+        sta=sta+5;
+        if (sta>12){
+          sta=12;
+        }
+        if (sta>4){
+          document.getElementById("stamina").className="";
+        }
+      }/**/
+      if(sta>4 && herohp>2){
+        peligro.className="namescore"
+        document.getElementById("stamina").className="";
+      }
+      document.getElementById("stamina").value=sta;
+    }else{
+      incombat=true;
       monsatk();
     }
   }else{
-    if (rmem==6){
-      document.getElementById("de").setAttribute("onClick", "extraño();");
-      document.getElementById("situacion").value="EXTRAÑO: -Luces exhausto, aquí es seguro. Porque no entras y descansas un poco-";
-      botinf.className = "luz";
-      document.getElementById("inf").setAttribute("onClick", "infoDesc();");
-    }
-    if (rmem==7){
-      trasgo();
-    }
-    if (rmem>7){
-      document.getElementById("situacion").value="La sala esta tranquila.";
-    }
+    document.getElementById("situacion").value="No puedes descansar ahora!";
   }
 }
+
+
+function atacar(){
+
+  if (incombat==true){
+    if (random()<3){ //Heroe, daña o falla?
+      ///////////////////////////////////////////
+      setTimeout(pego(), 5000);
+      //////////////////////////////////////////
+      monshp=monshp-1;
+     if (monshp<1){
+        document.getElementById("situacion").className="textWhite"
+        document.getElementById("situacion").value="DAS MUERTE AL MONSTRUO! Haz ganado 60pts por tu victoria.";
+        score=score+60;
+        oro=oro+Math.round(random()/2);
+        document.getElementById("score").value=score;
+        document.getElementById("orocont").value=oro;
+        incombat=false;
+        mataMons=mataMons+1;
+        cazador(mataMons);
+        //monshp=3;
+        sta=sta-3;
+        if (sta<5){
+          lowSta.className = "red";
+          peligro.className="Blood";
+        }
+        if (sta<1){
+          gameover();
+        }
+      document.getElementById("stamina").value=sta;
+      }
+    }else{
+      ///////////////////////////////////////////////////
+      setTimeout(fallo(), 5000);
+      //////////////////////////////////////////////////
+      monsatk();
+    }
+  }else{
+    document.getElementById("situacion").value="Abanicas tu espada al aire... ¡¿Que intentas hacer?!";
+  }
+}
+
+/*/////////////////////////////////////////////////////////////////////////
+                        ENCUENTROS CON PERSONAJES
+/////////////////////////////////////////////////////////////////////////*/
 
 function extraño(){
   herohp=6;
   sta=12;
   confiar=confiar+1;
   lowSta.className = "";
-  consola.className="";
+  lowPv.calssName = "textGreenYellow";
+  peligro.className="namescore";
   if (random()<6){
     magia=0;
     pota=0;
@@ -124,12 +191,47 @@ function extraño(){
 
 function trasgo(){
   buyuse=false;
+  document.getElementById("situacion").className="textViolet"
   document.getElementById("situacion").value="COMERCIANTE TRASGO: -Bienvenido aventurero! Tengo poderosos pergaminos por 30 monedas, pociones y raciones de viaje a solo 20. Una verdadera ganga!!! ...al menos si consideras tu situación jeje-";
   document.getElementById("percont").value=magia+"+1";
   document.getElementById("racont").value=miam+"+1";
   document.getElementById("potcont").value=pota+"+1";
   botinf.className = "luz";
   document.getElementById("inf").setAttribute("onClick", "infoShop();");
+}
+
+/*/////////////////////////////////////////////////////////////////////////
+                                  COMBATE
+/////////////////////////////////////////////////////////////////////////*/
+
+function combate(){
+  if (random()<6){ //Hay combate?
+    incombat=true;
+    monshp=3;
+    //document.getElementById("situacion").value="Un monstruo se acerca!";
+    setTimeout(viene(),5000);
+    //
+    if (random()<4){ //Quien empieza?
+      //document.getElementById("situacion").value="El monstruo te ataca!";
+      setTimeout(ataca(),5000);
+      //
+      monsatk();
+    }
+  }else{
+    if (rmem==6){
+      document.getElementById("de").setAttribute("onClick", "extraño();");
+      document.getElementById("situacion").className="textViolet"
+      document.getElementById("situacion").value="EXTRAÑO: -Luces exhausto, aquí es seguro. Porque no entras y descansas un poco-";
+      botinf.className = "luz";
+      document.getElementById("inf").setAttribute("onClick", "infoDesc();");
+    }
+    if (rmem==7){
+      trasgo();
+    }
+    if (rmem>7){
+      document.getElementById("situacion").value="La sala esta tranquila.";
+    }
+  }
 }
 
 
@@ -141,7 +243,7 @@ function monsatk(){
     herohp=herohp-1;
     if (herohp<3){
       lowPv.className = "red";
-      consola.className="consBlood";
+      peligro.className="Blood";
     }
     if (herohp<1){
       herohp=0;
@@ -158,68 +260,9 @@ function monsatk(){
   }
 }
 
-function atacar(){
-  if (incombat==true){
-    if (random()<3){ //Heroe, daña o falla?
-      ///////////////////////////////////////////
-      setTimeout(pego(), 5000);
-      //////////////////////////////////////////
-      monshp=monshp-1;
-     if (monshp<1){
-        document.getElementById("situacion").value="DAS MUERTE AL MONSTRUO! Haz ganado 60pts por tu victoria.";
-        score=score+60;
-        oro=oro+Math.round(random()/2);
-        document.getElementById("score").value=score;
-        document.getElementById("orocont").value=oro;
-        incombat=false;
-        mataMons=mataMons+1;
-        cazador(mataMons);
-        //monshp=3;
-        sta=sta-3;
-        if (sta<5){
-          lowSta.className = "red";
-          consola.className="consBlood";
-        }
-        if (sta<1){
-          gameover();
-        }
-      document.getElementById("stamina").value=sta;
-      }
-    }else{
-      ///////////////////////////////////////////////////
-      setTimeout(fallo(), 5000);
-      //////////////////////////////////////////////////
-      monsatk();
-    }
-  }else{
-    document.getElementById("situacion").value="Abanicas tu espada al aire... ¡¿Que intentas hacer?!";
-  }
-}
-
-function descansar(){
-  if (incombat==false){
-    document.getElementById("situacion").value="Te acurrucas en un rincon e intentas descansar";
-    if (random()<7){
-      document.getElementById("situacion").value="Te levantas mas descansado ..aunque con la espalda algo entumecida.";
-      if (sta==12 && herohp<6){
-        herohp=herohp+1;
-        document.getElementById("vidas").value=herohp;
-      }
-      if (sta<12){
-        sta=sta+5;
-        if (sta>12){
-          sta=12;
-        }
-      document.getElementById("stamina").value=sta;
-      }
-    }else{
-      incombat=true;
-      monsatk();
-    }
-  }else{
-    document.getElementById("situacion").value="No puedes descansar ahora!";
-  }
-}
+/*/////////////////////////////////////////////////////////////////////////
+                          USO Y VENTA DE OBJETOS
+/////////////////////////////////////////////////////////////////////////*/
 
 function usepot(){
   if (buyuse==true){
@@ -227,14 +270,18 @@ function usepot(){
       herohp=herohp+2;
       pota=pota-1;
       document.getElementById("potcont").value=pota;
+      document.getElementById("situacion").className="textWhite";
       document.getElementById("situacion").value="Ingieres el contenido del frasco.. Tus heridas sanan frente a tus ojos.";
       if (herohp>6){
         herohp=6;
         document.getElementById("vidas").value=herohp;
       }
-      if(herohp>2 && herohp<6){ /*porque si sta>12 tambien es mayor a 4*/
+      if(sta>4 && herohp>2){
+        peligro.className="namescore";
+        document.getElementById("vidas").className="";
+      }
+      if(herohp>2 && herohp<6){ /*porque si sta>12 tambien es mayor a 4 //O es muy elevado o cualquiera...*/
         lowPv.className = "";
-        consola.className="";
       }
         document.getElementById("vidas").value=herohp;
     }
@@ -258,14 +305,18 @@ function usera(){
       sta=sta+6;
       miam=miam-1;
       document.getElementById("racont").value=miam;
+      document.getElementById("situacion").className="textWhite";
       document.getElementById("situacion").value="Miam.. engulles una ración borazmente...";
       if (sta>12){
         sta=12;
         document.getElementById("stamina").value=sta;
       }
+      if(sta>4 && herohp>2){
+        peligro.className="namescore";
+        document.getElementById("vidas").className="";
+      }
       if(sta>4 && sta<12){ /*porque si sta>12 tambien es mayor a 4*/
         lowSta.className = "";
-        consola.className="";
       }
       document.getElementById("stamina").value=sta;
     }
@@ -289,6 +340,7 @@ function useper(){
       if (incombat==true){
         magia=magia-1;
         document.getElementById("percont").value=magia;
+        document.getElementById("situacion").className="textWhite";
         document.getElementById("situacion").value="Una cegadora llama blanca envuelve a la criatura reduciéndola a cenizas! Haz ganado 50pts por tu victoria!";
         score=score+50;
         oro=oro+Math.round(random()/2);
@@ -316,6 +368,9 @@ function useper(){
   }
 }
 
+/*/////////////////////////////////////////////////////////////////////////
+                              SISTEMA DE LOGROS
+/////////////////////////////////////////////////////////////////////////*/
 
 function cazador(){
   if (mataMons==5){
@@ -350,17 +405,28 @@ function materialista(){
 function explorador(){
   if (explorado==10){
     miam=miam+3;
+    exploradorCompleta="<COMPLETADA>";
     document.getElementById("racont").value=miam;
     document.getElementById("explorador").className="completada";
   }
 }
 
-//////////////////PRUEBA DELAY MENSAJES/////////////////
+function exploradorEstado(){
+  document.getElementById("situacion").className="textGreenYellow";
+  document.getElementById("situacion").value="LOGRO \"Explorador\": Condicion: Explora 10 salas de la mazmorra | Recompenza: Racion(+3) | Estado: "+exploradorCompleta;
+  /*document.getElementById("situacion").className="";*/
+}
+
+/*/////////////////////////////////////////////////////////////////////////
+PRUEBAS MENSAGES COMBATE
+/////////////////////////////////////////////////////////////////////////*/
+
 function viene(){
   return  document.getElementById("situacion").value="Un monstruo se acerca!";
 }
 
 function ataca(){
+  document.getElementById("situacion").className="textOrange";
   return document.getElementById("situacion").value="El monstruo te ataca!";
 }
 
@@ -368,21 +434,28 @@ function ataco(){
 }
 
 function fallo(){
+  document.getElementById("situacion").className="textblue";
   return document.getElementById("situacion").value="Fallas tu ataque";
 }
 
 function falla(){
+  document.getElementById("situacion").className="textOrange";
   return document.getElementById("situacion").value="La ciatura falla su ataque";
 }
 
 function pego(){
+  document.getElementById("situacion").className="textblue";
   return document.getElementById("situacion").value="Dañas a la criatura!";
 }
 
 function pega(){
+  document.getElementById("situacion").className="textOrange";
   return document.getElementById("situacion").value="La ciatura te daña!";
 }
-//////////////////////////////////////////
+
+/*/////////////////////////////////////////////////////////////////////////
+                          ASISTENCIA AL USUARIO
+/////////////////////////////////////////////////////////////////////////*/
 
 function infoBienv(){
   alert("Bienvenido a Mini-DungeonJS! El objetivo del juego es sobrevivir tanto como puedas  intentando hacerte con la mayor cantidad de puntos que puedas. Solo da clic en COMENZAR para dar inicio a tu aventura. Recuerda chequear este icono cada ves que lo veas iluminado para obtener ayuda e indicaciones durante tu partida!");
@@ -408,6 +481,10 @@ function infoDie(){
   alert("Haz muerto... pero no te preocupes, es parte del juego! Recuerda que el objetivo es conseguir puntos para ranquearte mejor en la tabla de posiciones y demostrarle tus habilidades al resto del mundo! Cierra esta ventana e inténtalo de nuevo. Seguro que esta vez lograras superar tu puntaje!");
   botinf.className = "";
 }
+
+/*/////////////////////////////////////////////////////////////////////////
+                          NEW GAME - GAME OVER
+/////////////////////////////////////////////////////////////////////////*/
 
 function gameover(){
 
@@ -436,19 +513,20 @@ function newgame(){
   monshp=3;
   incombat=false;
   sta=12;
-  oro=17;
-  pota=1;
-  miam=1;
-  magia=1;
+  oro=999;
+  pota=99;
+  miam=99;
+  magia=99;
   buyuse=true; //Define si los botones usan(true) o adquieren(false)los objetos.
   mataMons=0;
   confiar=0;
   cuatroObjetos=0;
   explorado=0;
+  exploradorCompleta="<incompleta>";
 
   lowSta.className = "";
   lowPv.className = "";
-  consola.className="";
+  peligro.className="namescore";
   movDes.className="";
   atDes.className="";
   desDes.className="";
@@ -484,6 +562,9 @@ function newgame(){
   document.getElementById("inf").setAttribute("onClick", "infoCtrl();");
 }
 
+/*/////////////////////////////////////////////////////////////////////////
+                              CARGA INICIAL
+/////////////////////////////////////////////////////////////////////////*/
 
 document.getElementById("av").disabled=true;
 document.getElementById("at").disabled=true;
@@ -512,7 +593,7 @@ var comDes=document.getElementById("ngame");
 
 lowSta=document.getElementById("stamina");
 lowPv=document.getElementById("vidas");
-consola=document.getElementById("situacion");
+peligro=document.getElementById("barra");
 /*contenedor=document.getElementById("contenedor");*/
 botinf=document.getElementById("inf");
 //botnew=document.getElementById("ngame");
