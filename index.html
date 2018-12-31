@@ -14,7 +14,7 @@
         <span id="cazador"><p><abbr title="Mision: Derrota 5 monstruos // Recompenza: Poción(+1)-Puntos(+100)">Cazador<abbr></p></span>
         <span id="confiado"><p><abbr title="Mision: Acepta 2 veces la invitacion del extraño // Recompenza: Oro(+30) Puntos(+45)">Confiado<abbr></p></span>
         <span id="materialista"><p><abbr title="Mision: Compra 4 objetos a Kublim // Recompenza: Puntos(+400)">Materialista<abbr></p></span>
-        <span id="explorador"><p><abbr title="Mision: Explora 10 salas de la mazmorra // Recompenza: Racion(+3)">Explorador<abbr></p></span>
+        <span id="explorador" onClick=exploradorEstado()><p><abbr title="Mision: Explora 10 salas de la mazmorra // Recompenza: Racion(+3)">Explorador<abbr></p></span>
         <span id="escurridizo"><p><abbr title="Mision: Huye de 3 enfrentamientos // Recompenza: Oro(+20)-Puntos(+20)">.Escurridizo<abbr></p></span>
         <span id="tacaño"><p><abbr title="Mision: Acumula 200 piezas de oro // Recompenza: Pergaminos(+2)-Puntos(+30)">.Tacaño<abbr></p></span>
         <span id="hechicero"><p><abbr title="Mision: Elimina 3 monstruos utilizando pergaminos // Recompenza: Oro(+75)-Puntos(+15)">.Hechicero<abbr></p></span>
@@ -22,7 +22,7 @@
       </div>
       <div class="contenedor" id="contenedor">
         <p>#Mini-Dungeon <span class="jslogo">JS</span></p>
-        <div class="namescore">
+        <div class="namescore" id="barra">
           <label for="name">Héroe: </label>
           <input type="text" value="Aventurero" id="name" size="12"></input>
 

@@ -164,7 +164,7 @@ strong{
   /*text-shadow:50em 50em 50em red!important;*/
 }
 
-.consBlood{
+.Blood{
   /*display:flex;
   align-items:center;
   flex-direction:column;
@@ -178,7 +178,35 @@ strong{
   /*animation-duration: 3s;*/
   /*animation-name: peligro 5s ease inifinite alternate;*/
   /*animation-iteration-count: infinite;*/
-  box-shadow:inset 1px 1px 20px 1px red;
+  text-align:center;
+  background-color:black;
+  color:green;
+  border:solid gray 2px;
+  padding: 2px;
+  width:90%;
+  box-shadow:1px 1px 20px 1px red;
+}
+
+.textGreenYellow{
+  color:greenyellow !important;
+}
+
+.textViolet{
+  font-weight: bold;
+  color:violet !important;
+}
+
+.textOrange{
+  color:#D85B21 !important;
+}
+
+.textWhite{
+  font-weight: bold;
+  color:white !important;
+}
+
+.textblue{
+  color:#38B2B2 !important;
 }
 
 input[type|="button"].deshabilitado{
